@@ -84,9 +84,40 @@ func NewUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "delete users endpoint hit")
+	//fmt.Fprintf(w, "delete users endpoint hit")
+	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect to database")
+	}
+	//defer db.Close()
+
+	vars := mux.Vars(r)//接受网页request取得参数
+	name := vars["name"]
+
+	var user User
+	db.Where("username = ?", name).Find(&user)
+	db.Delete(&user) //crud中变量都是使用指针，
+
+	fmt.Fprintf(w,"User Successful deleted")
+
 }
 
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "update users endpoint hit")
+	//fmt.Fprintf(w, "update users endpoint hit")
+	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect to database")
+	}
+	//defer db.Close()
+
+	vars := mux.Vars(r) //从http request中拿到全部parameter, map类型
+	name := vars["name"] //读出字段
+	email := vars["email"]
+
+	var user User 
+	db.Where("name = ?", name).Find(&user)//查找并赋值给user变量
+	user.Email = email //设置新值
+
+	db.Save(&user) //保存到db
+	fmt.Fprintf(w,"successfully updateded")//想网页返回信息
 }

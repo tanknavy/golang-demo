@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UFT-8">
+    <meta name="viewport" content="width=device-width" , initial-scale=1.0>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Go WebSocket Demo</title>
+</head>
+
+<body>
+    <h2>Hello Socket</h2>
+
+    <!--从cdn中导入socket，新建一个socket连接到本地endpoint, 发消息给server并接受返回-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"
+        integrity="sha512-7IDZ+mHVoc7nSziUi72L5rGojJDtveVWHOjb+Eu8QSnguy5FitNnFyEoLoL3v1u18DNm4E30elDfkhZvVADw6Q=="
+        crossorigin="anonymous"></script>
+
+    <script>
+        const socket = io('http://localhost:5000/socket.io/');
+
+        socket.emit("chat message", "hello world from web")
+
+        socket.on("chat message", (msg) => {
+            console.log(msg);
+        })
+    </script>
+
+</body>
+
+</html>

@@ -12,6 +12,7 @@ func handleRequest(){
 	myRouter := mux.NewRouter().StrictSlash(true)
 	myRouter.HandleFunc("/", hellworld).Methods("GET")
 	
+	//user一个endpoint下面不同http method
 	myRouter.HandleFunc("/users", user.AllUsers).Methods("GET")
 	myRouter.HandleFunc("/user/{name}/{email}", user.NewUser).Methods("POST")
 	myRouter.HandleFunc("/user/{name}", user.DeleteUser).Methods("DELETE")
